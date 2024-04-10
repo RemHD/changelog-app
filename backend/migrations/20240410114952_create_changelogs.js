@@ -1,6 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable('changelogs', (table) => {
-    table.increments('id')
+    table.increments('id').primary()
+    table.string('type')
     table.string('title')
     table.text('content')
     table.string('category')

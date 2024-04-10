@@ -1,0 +1,60 @@
+import type { ChangelogInterface } from '@/utils/interfaces'
+import axios from 'axios'
+
+const baseUrl = import.meta.env.VITE_NODE_BACK_URL
+
+export const changelogService = {
+  async getAllChangelogs() {
+    try {
+      const response = await axios.get(`${baseUrl}/changelogs`)
+      return response.data
+    } catch (error) {
+      console.error('Cannot retrieve all changelogs:', error)
+    }
+  },
+
+  async getHiddenChangelogs() {
+    try {
+      const response = await axios.get(`${baseUrl}/changelogs?is_hidden=true`)
+      return response.data
+    } catch (error) {
+      console.error('Cannot retrieve all hidden changelogs:', error)
+    }
+  },
+
+  async getChangelogById(changelogId: number) {
+    try {
+      const response = await axios.get(`${baseUrl}/changelogs/${changelogId}`)
+      return response.data
+    } catch (error) {
+      console.error('Cannot retrieve specific changelog:', error)
+    }
+  },
+
+  async createChangelog(changelog: ChangelogInterface) {
+    try {
+      const response = await axios.post(`${baseUrl}/changelogs`, changelog)
+      return response.data
+    } catch (error) {
+      console.error('Cannot create changelog:', error)
+    }
+  },
+
+  async updateChangelog(changelogId: number, changelogData: ChangelogInterface) {
+    try {
+      const response = await axios.put(`${baseUrl}/changelogs/${changelogId}`, changelogData)
+      return response.data
+    } catch (error) {
+      console.error('Cannot update changelog:', error)
+    }
+  },
+
+  async deleteChangelog(changelogId: number) {
+    try {
+      const response = await axios.delete(`${baseUrl}/changelogs/${changelogId}`)
+      return response.status
+    } catch (error) {
+      console.error('Cannot delete changelog:', error)
+    }
+  }
+}

@@ -5,6 +5,7 @@
     <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
       {{ title }}
     </h2>
+    <h4>{{ type }}</h4>
     <h4>{{ date }}</h4>
     <p class="font-normal text-gray-700 dark:text-gray-400">{{ content }}</p>
   </div>
@@ -12,9 +13,10 @@
 
 <script setup lang="ts">
 defineProps<{
-  id: string
+  id: number
+  date: string,
+  type: string,
   title: string
-  date: string
   content: string
 }>()
 </script>
