@@ -13,9 +13,9 @@
 
 <script setup lang="ts">
 defineProps<{
-  id: number
-  date: string,
-  type: string,
+  id?: number
+  date: string
+  type: string
   title: string
   content: string
 }>()

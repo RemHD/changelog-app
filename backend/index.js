@@ -1,5 +1,6 @@
 // Add an express server
 const express = require('express')
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const knexConfig = require('./knexfile')
 const knex = require('knex')(knexConfig.development)
@@ -8,6 +9,8 @@ const app = express()
 const port = 3000
 
 app.use(bodyParser.json())
+app.use(cors())
+
 
 // GET all changelogs that are either hidden or not
 app.get('/changelogs', async (req, res) => {
@@ -42,12 +45,12 @@ app.get('/changelogs/:id', async (req, res) => {
 
 // POST to create a changelog
 app.post('/changelogs', async (req, res) => {
-  const { title, content, category, date, is_hidden } = req.body
+  const { title, content, type, date, is_hidden } = req.body
   try {
     const newChangelog = await knex('changelogs').insert({
       title,
       content,
-      category,
+      type,
       date,
       is_hidden
     })

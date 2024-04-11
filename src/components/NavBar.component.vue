@@ -1,8 +1,8 @@
 <template>
   <nav class="bg-white border-gray-200 dark:bg-gray-900">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-      <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
-        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
+      <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <img src="../assets/logo.svg" class="h-8" alt="Pole app logo" />
         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
           >Changelog App</span
         >
@@ -53,6 +53,8 @@
           </div>
           <input
             type="text"
+            v-model="searchQuery"
+            @input="updateSearch"
             id="search-navbar"
             class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search..."

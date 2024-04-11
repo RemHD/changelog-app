@@ -1,7 +1,7 @@
 import type { ChangelogInterface } from '@/utils/interfaces'
 import axios from 'axios'
 
-const baseUrl = import.meta.env.VITE_NODE_BACK_URL
+const baseUrl = 'http://localhost:3000'
 
 export const changelogService = {
   async getAllChangelogs() {

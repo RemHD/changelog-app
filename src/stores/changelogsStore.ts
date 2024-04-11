@@ -13,8 +13,10 @@ export const useChangelogStore = defineStore('changelogs', {
     async fetchChangelogs() {
       try {
         this.changelogs = await changelogService.getAllChangelogs()
+        return this.changelogs
       } catch (error) {
         console.error('Failed to fetch changelogs:', error)
+        return []
       }
     },
 

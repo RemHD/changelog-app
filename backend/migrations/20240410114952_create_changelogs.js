@@ -4,7 +4,6 @@ exports.up = function (knex) {
     table.string('type')
     table.string('title')
     table.text('content')
-    table.string('category')
     table.date('date')
     table.boolean('is_hidden').defaultTo(false)
   })
