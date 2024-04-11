@@ -11,7 +11,6 @@ const port = 3000
 app.use(bodyParser.json())
 app.use(cors())
 
-
 // GET all changelogs that are either hidden or not
 app.get('/changelogs', async (req, res) => {
   let query = knex('changelogs')
@@ -21,8 +20,14 @@ app.get('/changelogs', async (req, res) => {
     query = query.where('is_hidden', isHidden)
   } else {
     // If no query parameter provided, default to fetching non-hidden changelogs.
-    query = query.where('is_hidden', false)
+    // Filter the result by date and limit 10 changelogs fetch at a time
+    query = query.where('is_hidden', false).orderBy('date', 'desc').limit(10)
   }
+
+  if(req.query.lastId) {
+    const lastId = parseInt(req.query.lastId, 10)
+    query = query.where('id', '>', lastId)
+  } 
 
   try {
     const changelogs = await query

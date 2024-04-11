@@ -10,10 +10,13 @@ export const useChangelogStore = defineStore('changelogs', {
   }),
 
   actions: {
-    async fetchChangelogs() {
+    async fetchChangelogs(lastChangelogId?: number): Promise<ChangelogInterface[]> {
       try {
-        this.changelogs = await changelogService.getAllChangelogs()
-        return this.changelogs
+        const newChangelogs = await changelogService.getAllChangelogs(lastChangelogId)
+        if (lastChangelogId !== undefined && newChangelogs.length > 0) {
+          this.changelogs.push(...newChangelogs)
+        }
+        return newChangelogs
       } catch (error) {
         console.error('Failed to fetch changelogs:', error)
         return []

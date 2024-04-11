@@ -4,7 +4,7 @@
       <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
         <img src="../assets/logo.svg" class="h-8" alt="Pole app logo" />
         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-          >Changelog App</span
+          >Changelog</span
         >
       </a>
       <div class="flex md:order-2">
@@ -107,7 +107,6 @@
               />
             </svg>
           </div>
-          <!-- Need to create a form for it to work  -->
           <input
             type="text"
             v-model="searchQuery"

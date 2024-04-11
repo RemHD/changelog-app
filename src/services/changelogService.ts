@@ -4,9 +4,13 @@ import axios from 'axios'
 const baseUrl = 'http://localhost:3000'
 
 export const changelogService = {
-  async getAllChangelogs() {
+  async getAllChangelogs(lastChangelogId?: number) {
     try {
-      const response = await axios.get(`${baseUrl}/changelogs`)
+      let url = `${baseUrl}/changelogs`
+      if (lastChangelogId) {
+        url += `?lastId=${lastChangelogId}`
+      }
+      const response = await axios.get(url)
       return response.data
     } catch (error) {
       console.error('Cannot retrieve all changelogs:', error)
