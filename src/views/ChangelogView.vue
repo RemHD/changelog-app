@@ -78,9 +78,14 @@ const updateSearchQuery = (query: string) => {
 }
 
 const filteredChangelogs = computed(() => {
-  return changelogs?.value.filter((changelog) =>
-    changelog.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
+  return changelogs?.value.filter((changelog) => {
+    // Check if the title includes the search query
+    const titleMatch = changelog.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+    // Convert both the changelog date and the search query to the same format and check if they match
+    // This simple example assumes the changelog.date is already in 'YYYY-MM-DD' format.
+    const dateMatch = changelog.date.includes(searchQuery.value)
+    return titleMatch || dateMatch
+  })
 })
 </script>
 
