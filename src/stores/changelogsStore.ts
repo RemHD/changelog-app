@@ -13,10 +13,16 @@ export const useChangelogStore = defineStore('changelogs', {
     async fetchChangelogs(lastChangelogId?: number): Promise<ChangelogInterface[]> {
       try {
         const newChangelogs = await changelogService.getAllChangelogs(lastChangelogId)
-        if (lastChangelogId !== undefined && newChangelogs.length > 0) {
-          this.changelogs.push(...newChangelogs)
+        const uniqueChangelogs = newChangelogs.filter(
+          (newChangelog: ChangelogInterface) =>
+            !this.changelogs.find((existingChangelog) => existingChangelog.id === newChangelog.id)
+        )
+
+        if (uniqueChangelogs.length > 0) {
+          this.changelogs.push(...uniqueChangelogs)
         }
-        return newChangelogs
+
+        return uniqueChangelogs
       } catch (error) {
         console.error('Failed to fetch changelogs:', error)
         return []
@@ -43,6 +49,7 @@ export const useChangelogStore = defineStore('changelogs', {
       try {
         const newChangelog = await changelogService.createChangelog(changelogData)
         this.changelogs.push(newChangelog)
+        console.log('changelog added to the store')
       } catch (error) {
         console.error('Failed to create changelog:', error)
       }

@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { ChangelogType } from '@/utils/interfaces'
 
 defineProps<{
@@ -38,7 +37,6 @@ defineProps<{
   content: string
 }>()
 
-const typeColor = computed(() => {})
 </script>
 
 <style scoped></style>

@@ -1,4 +1,3 @@
-// Add an express server
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
@@ -13,32 +12,29 @@ app.use(cors())
 
 // GET all changelogs that are either hidden or not
 app.get('/changelogs', async (req, res) => {
-  let query = knex('changelogs')
+  let query = knex('changelogs').where('is_hidden', false)
 
-  if (req.query.is_hidden) {
-    const isHidden = req.query.is_hidden === 'true'
-    query = query.where('is_hidden', isHidden)
-  } else {
-    // If no query parameter provided, default to fetching non-hidden changelogs.
-    // Filter the result by date and limit 10 changelogs fetch at a time
-    query = query.where('is_hidden', false).orderBy('date', 'desc').limit(10)
+  query = query.orderBy('id', 'desc')
+  if (req.query.lastId) {
+    const lastId = parseInt(req.query.lastId, 10)
+    // Since we're fetching in descending order, we should fetch IDs less than the last fetched ID
+    query = query.andWhere('id', '<', lastId)
   }
 
-  if(req.query.lastId) {
-    const lastId = parseInt(req.query.lastId, 10)
-    query = query.where('id', '>', lastId)
-  } 
+  // Limit to 10 resultats per scroll
+  query = query.limit(10)
 
   try {
     const changelogs = await query
     res.json(changelogs)
   } catch (error) {
+    console.error('Error retrieving changelogs:', error)
     res.status(500).send('Error retrieving changelogs')
   }
 })
 
 // GET changelog by id
-app.get('/changelogs/:id', async (req, res) => {
+app.get(`/changelogs/:id`, async (req, res) => {
   const { id } = req.params
   const changelog = await knex('changelogs').where({ id }).first()
   if (changelog) {
@@ -50,15 +46,17 @@ app.get('/changelogs/:id', async (req, res) => {
 
 // POST to create a changelog
 app.post('/changelogs', async (req, res) => {
-  const { title, content, type, date, is_hidden } = req.body
+  const { title, content, app_name, type, date, is_hidden } = req.body
   try {
-    const newChangelog = await knex('changelogs').insert({
+    const [newChangelogId] = await knex('changelogs').insert({
       title,
       content,
+      app_name,
       type,
       date,
       is_hidden
     })
+    const newChangelog = await knex('changelogs').where({ id: newChangelogId }).first()
     res.status(201).json({ sucess: true, message: 'Changelog created', data: newChangelog })
   } catch (error) {
     res

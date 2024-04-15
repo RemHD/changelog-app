@@ -1,9 +1,7 @@
 <template>
   <NavBar @update:search="updateSearchQuery" />
-  <!-- Checkboxes-->
-  <!-- <FilterBar /> -->
   <div class="flex px-4">
-    <CreateChangelogButton />
+    <CreateChangelogModal />
   </div>
   <main>
     <div class="grid grid-cols-1 gap-4 place-items-center mt-10 md:mt-28">
@@ -33,8 +31,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useChangelogStore } from '@/stores/changelogsStore'
 import { initFlowbite } from 'flowbite'
 import type { ChangelogInterface } from '@/utils/interfaces'
-import FilterBar from '../components/FilterBar.component.vue'
-import CreateChangelogButton from '../components/CreateChangelogButton.component.vue'
+import CreateChangelogModal from '../components/CreateChangelogModal.component.vue'
 
 const isLoading = ref(false)
 const hasMoreChangelogs = ref(true)
@@ -85,6 +82,7 @@ const updateSearchQuery = (query: string) => {
   searchQuery.value = query
 }
 
+// FILTER DIRECTLY FROM the store value ?
 const filteredChangelogs = computed(() => {
   return changelogs?.value.filter((changelog) => {
     // Check if the title includes the search query

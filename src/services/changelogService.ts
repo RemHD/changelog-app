@@ -14,6 +14,7 @@ export const changelogService = {
       return response.data
     } catch (error) {
       console.error('Cannot retrieve all changelogs:', error)
+      return []
     }
   },
 
