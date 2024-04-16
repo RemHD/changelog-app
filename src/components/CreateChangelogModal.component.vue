@@ -175,7 +175,6 @@ import type { ChangelogInterface } from '@/utils/interfaces'
 import * as yup from 'yup'
 import { ErrorMessage, useForm } from 'vee-validate'
 import { useChangelogStore } from '@/stores/changelogsStore'
-import { ref } from 'vue'
 
 //const changelogUseCase = new ChangelogsUsecases()
 
@@ -203,7 +202,7 @@ const createChangelog = async (formData: ChangelogInterface) => {
   await changelogsStore.generateChangelog(formData)
 }
 
-const emit = defineEmits(['create-changelog'])
+//const emit = defineEmits(['create-changelog'])
 
 const onSubmit = handleSubmit(async (values) => {
   const validData: ChangelogInterface = {

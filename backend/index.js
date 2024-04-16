@@ -10,23 +10,68 @@ const port = 3000
 app.use(bodyParser.json())
 app.use(cors())
 
-// GET all changelogs that are either hidden or not
-app.get('/changelogs', async (req, res) => {
-  let query = knex('changelogs').where('is_hidden', false)
+async function getChangelogs(isHidden = false, lastId, limit = 10) {
+  let query = knex('changelogs').where('is_hidden', isHidden).orderBy('id', 'desc')
 
-  query = query.orderBy('id', 'desc')
-  if (req.query.lastId) {
-    const lastId = parseInt(req.query.lastId, 10)
-    // Since we're fetching in descending order, we should fetch IDs less than the last fetched ID
-    query = query.andWhere('id', '<', lastId)
+  if (lastId) {
+    query = query.andWhere('id', '<', parseInt(lastId, 10))
   }
 
-  // Limit to 10 resultats per scroll
-  query = query.limit(10)
+  query = query.limit(limit)
 
   try {
     const changelogs = await query
-    console.log(changelogs)
+    return changelogs
+  } catch (error) {
+    console.error('Error retrieving changelogs:', error)
+    throw error
+  }
+}
+
+// Route handler with filtering logic
+app.get('/changelogs', async (req, res) => {
+  const isHidden = req.query.is_hidden === 'true'
+  const lastId = req.query.lastId
+
+  try {
+    const changelogs = await getChangelogs(isHidden, lastId)
+    res.json(changelogs)
+  } catch (error) {
+    console.error('Error retrieving changelogs:', error)
+    res.status(500).send('Error retrieving changelogs')
+  }
+})
+
+// GET all changelogs that are either hidden or not
+// app.get('/changelogs', async (req, res) => {
+//   let query = knex('changelogs').where('is_hidden', false)
+
+//   query = query.orderBy('id', 'desc')
+//   if (req.query.lastId) {
+//     const lastId = parseInt(req.query.lastId, 10)
+//     // Since we're fetching in descending order, we should fetch IDs less than the last fetched ID
+//     query = query.andWhere('id', '<', lastId)
+//   }
+
+//   // Limit to 10 resultats per scroll
+//   query = query.limit(10)
+
+//   try {
+//     const changelogs = await query
+//     console.log(changelogs)
+//     res.json(changelogs)
+//   } catch (error) {
+//     console.error('Error retrieving changelogs:', error)
+//     res.status(500).send('Error retrieving changelogs')
+//   }
+// })
+
+app.get('/changelogs', async (req, res) => {
+  const isHidden = req.query.is_hidden === 'true' // Convert string to boolean
+  const lastId = req.query.lastId
+
+  try {
+    const changelogs = await getChangelogs(isHidden, lastId)
     res.json(changelogs)
   } catch (error) {
     console.error('Error retrieving changelogs:', error)

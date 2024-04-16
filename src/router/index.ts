@@ -7,7 +7,14 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: ChangelogView
+      component: ChangelogView,
+      meta: { title: 'Home', showInNavBar: true }
+    },
+    {
+      path: '/hidden-changelogs',
+      name: 'hidden',
+      component: () => import('../views/HiddenChangelogView.vue'),
+      meta: { title: 'Hidden', showInNavBar: true }
     },
   ]
 })

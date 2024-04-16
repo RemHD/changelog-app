@@ -7,7 +7,17 @@
           >Changelog</span
         >
       </a>
-      <div class="flex md:order-2">
+      <div class="flex md:order-2 md:space-x-4">
+        <div class="hidden md:flex items-center space-x-4">
+          <RouterLink
+            v-for="route in filteredRoutes"
+            :key="route.name"
+            class="hover:text-gray-400 transition-colors duration-300"
+            :to="route.path"
+          >
+            {{ route.meta.title }}
+          </RouterLink>
+        </div>
         <button
           type="button"
           data-collapse-toggle="navbar-search"
@@ -54,17 +64,15 @@
           <input
             type="text"
             v-model="searchQuery"
-            @input="updateSearch"
             id="search-navbar"
             class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search by title or date"
           />
         </div>
         <button
-          data-collapse-toggle="navbar-search"
+          @click="toggleMenu"
           type="button"
           class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          aria-controls="navbar-search"
           aria-expanded="false"
         >
           <span class="sr-only">Open main menu</span>
@@ -118,18 +126,38 @@
         </div>
       </div>
     </div>
+    <!-- Menu mobile -->
+    <div :class="{ block: isOpen, hidden: !isOpen }" class="md:hidden">
+      <RouterLink
+        v-for="route in filteredRoutes"
+        :key="route.name"
+        class="block px-4 py-2 hover:bg-gray-700 transition-colors duration-300"
+        :to="route.path"
+      >
+        {{ route.meta.title }}
+      </RouterLink>
+    </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
+import router from '../router'
 
 let searchQuery = ref('')
 
+const isOpen = ref(false)
+
+const toggleMenu = () => {
+  isOpen.value = !isOpen.value
+}
+
 const emit = defineEmits(['update:search'])
 
+const filteredRoutes = router.getRoutes().filter((route) => route.meta.showInNavBar)
+
 const updateSearch = () => {
-    emit('update:search', searchQuery.value)
+  emit('update:search', searchQuery.value)
 }
 </script>
 
