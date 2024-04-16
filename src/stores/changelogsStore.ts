@@ -6,23 +6,33 @@ export const useChangelogStore = defineStore('changelogs', {
   state: () => ({
     changelogs: [] as ChangelogInterface[],
     hiddenChangelogs: [] as ChangelogInterface[],
-    currentChangelog: null as ChangelogInterface | null
+    currentChangelog: null as ChangelogInterface | null,
+    searchQuery: ''
   }),
 
+  getters: {
+    filteredChangelogs: (state) => {
+      const searchLower = state.searchQuery ? state.searchQuery.toLowerCase() : ''
+      return state.changelogs.filter((changelog) => {
+        return changelog.title ? changelog.title.toLowerCase().includes(searchLower): '' ||
+               changelog.date ? changelog.date.includes(searchLower) : '' ||
+               changelog.type ? changelog.date.toLowerCase().includes(searchLower) : ''
+      })
+    }
+  },
+
   actions: {
-    async fetchChangelogs(lastChangelogId?: number): Promise<ChangelogInterface[]> {
+    setSearchQuery(newQuery: string) {
+      this.searchQuery = newQuery
+    },
+
+    async fetchChangelogs(lastChangelogId?: number) {
       try {
         const newChangelogs = await changelogService.getAllChangelogs(lastChangelogId)
-        const uniqueChangelogs = newChangelogs.filter(
-          (newChangelog: ChangelogInterface) =>
-            !this.changelogs.find((existingChangelog) => existingChangelog.id === newChangelog.id)
-        )
-
-        if (uniqueChangelogs.length > 0) {
-          this.changelogs.push(...uniqueChangelogs)
+        if (newChangelogs.length > 0) {
+          this.changelogs.push(...newChangelogs)
         }
-
-        return uniqueChangelogs
+        return newChangelogs
       } catch (error) {
         console.error('Failed to fetch changelogs:', error)
         return []
@@ -48,7 +58,9 @@ export const useChangelogStore = defineStore('changelogs', {
     async generateChangelog(changelogData: ChangelogInterface) {
       try {
         const newChangelog = await changelogService.createChangelog(changelogData)
+        console.log('FROM THE STORE GENERATE CHANGELOG' ,changelogData)
         this.changelogs.push(newChangelog)
+        console.log(newChangelog)
         console.log('changelog added to the store')
       } catch (error) {
         console.error('Failed to create changelog:', error)

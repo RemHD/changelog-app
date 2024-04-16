@@ -174,19 +174,7 @@
 import type { ChangelogInterface } from '@/utils/interfaces'
 import ChangelogsUsecases from '../usecases/changelogsUsecases'
 import * as yup from 'yup'
-import { ErrorMessage, useForm, type GenericObject } from 'vee-validate'
-import { changelogService } from '@/services/changelogService'
-import { useChangelogStore } from '@/stores/changelogsStore'
-
-const changelogStore = useChangelogStore()
-
-// interface ChangelogFormData {
-//   title: string,
-//   content: string,
-//   app_name : string
-//   type: string,
-//   date: string
-// }
+import { ErrorMessage, useForm } from 'vee-validate'
 
 const changelogUseCase = new ChangelogsUsecases()
 
@@ -214,13 +202,16 @@ const createChangelog = async (formData: ChangelogInterface) => {
     if (newChangelog) {
       // NOT SO SURE ABOUT changelogStore.changelogs.push(newChangelog)
       // changelogStore.fetchChangelogs(newChangelog.id)
+
     }
   } catch (error) {
     console.error('Error while creating new changelog :', error)
   }
 }
 
-const onSubmit = handleSubmit((values) => {
+const emit = defineEmits(['create-changelog'])
+
+const onSubmit = handleSubmit(async (values) => {
   const validData: ChangelogInterface = {
     title: values.title,
     type: values.type,
@@ -229,6 +220,7 @@ const onSubmit = handleSubmit((values) => {
     app_name: values.app_name
   }
 
-  createChangelog(validData)
+  await createChangelog(validData)
+  emit('create-changelog', validData)
 })
 </script>

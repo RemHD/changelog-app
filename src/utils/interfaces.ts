@@ -5,7 +5,9 @@ export interface ChangelogInterface {
     type: ChangelogType
     date: string,
     title: string,
-    content: string
+    content: string,
+    // set by the API
+    is_hidden?: boolean
 }
 
 export enum ChangelogType {

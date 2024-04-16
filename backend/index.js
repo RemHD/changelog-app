@@ -26,6 +26,7 @@ app.get('/changelogs', async (req, res) => {
 
   try {
     const changelogs = await query
+    console.log(changelogs)
     res.json(changelogs)
   } catch (error) {
     console.error('Error retrieving changelogs:', error)
@@ -46,7 +47,8 @@ app.get(`/changelogs/:id`, async (req, res) => {
 
 // POST to create a changelog
 app.post('/changelogs', async (req, res) => {
-  const { title, content, app_name, type, date, is_hidden } = req.body
+  const { title, content, app_name, type, date } = req.body
+  const is_hidden = req.body.is_hidden !== undefined ? req.body.is_hidden : false
   try {
     const [newChangelogId] = await knex('changelogs').insert({
       title,
