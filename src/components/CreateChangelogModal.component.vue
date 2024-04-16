@@ -172,11 +172,14 @@
 
 <script lang="ts" setup>
 import type { ChangelogInterface } from '@/utils/interfaces'
-import ChangelogsUsecases from '../usecases/changelogsUsecases'
 import * as yup from 'yup'
 import { ErrorMessage, useForm } from 'vee-validate'
+import { useChangelogStore } from '@/stores/changelogsStore'
+import { ref } from 'vue'
 
-const changelogUseCase = new ChangelogsUsecases()
+//const changelogUseCase = new ChangelogsUsecases()
+
+const changelogsStore = useChangelogStore()
 
 // yup field validation
 const { errors, handleSubmit, defineField } = useForm({
@@ -197,16 +200,7 @@ const [date] = defineField('date')
 const [content] = defineField('content')
 
 const createChangelog = async (formData: ChangelogInterface) => {
-  try {
-    const newChangelog = await changelogUseCase.createChangelog(formData)
-    if (newChangelog) {
-      // NOT SO SURE ABOUT changelogStore.changelogs.push(newChangelog)
-      // changelogStore.fetchChangelogs(newChangelog.id)
-
-    }
-  } catch (error) {
-    console.error('Error while creating new changelog :', error)
-  }
+  await changelogsStore.generateChangelog(formData)
 }
 
 const emit = defineEmits(['create-changelog'])
@@ -220,7 +214,7 @@ const onSubmit = handleSubmit(async (values) => {
     app_name: values.app_name
   }
 
-  await createChangelog(validData)
-  emit('create-changelog', validData)
+  return await createChangelog(validData)
+  //emit('create-changelog', validData)
 })
 </script>

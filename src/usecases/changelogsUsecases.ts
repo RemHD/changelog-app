@@ -1,7 +1,7 @@
 import { useChangelogStore } from '@/stores/changelogsStore'
 import type { ChangelogInterface } from '@/utils/interfaces'
 
-export default class ChanlogsUsecases {
+export default class ChangelogsUsecases {
   private store = useChangelogStore()
 
   async createChangelog(changelogData: ChangelogInterface) {

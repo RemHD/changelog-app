@@ -1,7 +1,7 @@
 <template>
   <NavBar @update:search="updateSearchQuery" />
   <div class="flex px-4">
-    <CreateChangelogModal/>
+    <CreateChangelogModal />
   </div>
   <main>
     <div class="grid grid-cols-1 gap-4 place-items-center mt-10 md:mt-28">
@@ -27,16 +27,16 @@
 
 <script setup lang="ts">
 import ChangelogCard from '../components/ChangelogCard.component.vue'
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useChangelogStore } from '@/stores/changelogsStore'
 import { initFlowbite } from 'flowbite'
 import CreateChangelogModal from '../components/CreateChangelogModal.component.vue'
 
 const isLoading = ref(false)
 const hasMoreChangelogs = ref(true)
-const searchQuery = ref('')
 
 const changelogStore = useChangelogStore()
+const isChangelogCreated = ref(false)
 
 // To detect if we're near the end of the page
 const isNearBottom = () => {
@@ -54,8 +54,19 @@ onMounted(async () => {
   if (changelogStore.changelogs.length === 0) {
     await changelogStore.fetchChangelogs()
   }
+
+  watch(isChangelogCreated, async (newVal) => {
+    if (newVal) {
+      await changelogStore.fetchChangelogs() // Refetch on flag change
+      isChangelogCreated.value = false
+    }
+  })
+
   window.addEventListener('scroll', handleScroll)
 })
+
+// Initial fetch
+isChangelogCreated.value = true;
 
 // Fetch changelogs after init
 const continueFetchingChangelogs = async () => {
@@ -83,8 +94,6 @@ const handleScroll = () => {
     continueFetchingChangelogs()
   }
 }
-
-
 </script>
 
 <style scoped></style>
