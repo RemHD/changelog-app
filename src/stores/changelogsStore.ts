@@ -58,11 +58,11 @@ export const useChangelogStore = defineStore('changelogs', {
     async generateChangelog(changelogData: ChangelogInterface) {
       try {
         const newChangelog = await changelogService.createChangelog(changelogData)
+        // newChangelog becomes a new array, and we create a new one with the ... operator
         this.changelogs.push(...[newChangelog])
-        // console.log('FROM THE STORE GENERATE CHANGELOG' ,changelogData)
-        // this.changelogs.push(newChangelog)
-        // console.log(newChangelog)
-        // console.log('changelog added to the store')
+        // this.changelogs.sort((a,b : ChangelogInterface) => b.id - a.id)
+        console.log(this.changelogs.values)
+        // Need to sort the this.changelogs ? Or check the filteredChangelogs
       } catch (error) {
         console.error('Failed to create changelog:', error)
       }

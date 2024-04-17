@@ -9,12 +9,7 @@
         <ChangelogCard
           class="mb-2.5"
           v-for="changelog in changelogStore.filteredChangelogs"
-          :id="changelog.id"
-          :date="changelog.date"
-          :type="changelog.type"
-          :title="changelog.title"
-          :app_name="changelog.app_name"
-          :content="changelog.content"
+          :changelog="changelog"
           :key="changelog.id"
         />
       </template>

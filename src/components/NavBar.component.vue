@@ -157,6 +157,7 @@ const emit = defineEmits(['update:search'])
 const filteredRoutes = router.getRoutes().filter((route) => route.meta.showInNavBar)
 
 const updateSearch = () => {
+  console.log(searchQuery.value)
   emit('update:search', searchQuery.value)
 }
 </script>
