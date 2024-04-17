@@ -14,7 +14,7 @@
     >
       <path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"></path>
     </svg>
-    Create changelog
+    {{ $t('create-changelog') }}
   </button>
   <!-- Main modal -->
   <div
@@ -30,7 +30,9 @@
         <div
           class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
         >
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Create changelog</h3>
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            {{ $t('create-changelog') }}
+          </h3>
           <button
             type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -51,16 +53,31 @@
                 d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
               />
             </svg>
-            <span class="sr-only">Close modal</span>
+            <span class="sr-only">{{ $t('close-modal') }}</span>
           </button>
         </div>
         <!-- Modal body -->
         <div class="p-4 md:p-5 space-y-4">
           <form id="create-changelog-form" @submit.prevent="onSubmit">
             <div class="mb-4">
-              <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-200"
-                >Title</label
-              >
+              <span class="flex items-center">
+                <label
+                  for="title"
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-200"
+                  >{{ $t('title') }}</label
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  height="12"
+                  width="12"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12.9998 3L12.9996 10.267L19.294 6.63397L20.294 8.36602L14.0006 11.999L20.294 15.634L19.294 17.366L12.9996 13.732L12.9998 21H10.9998L10.9996 13.732L4.70557 17.366L3.70557 15.634L9.99857 12L3.70557 8.36602L4.70557 6.63397L10.9996 10.267L10.9998 3H12.9998Z"
+                  ></path>
+                </svg>
+              </span>
               <input
                 v-model="title"
                 type="text"
@@ -74,9 +91,24 @@
               }}</ErrorMessage>
             </div>
             <div class="mb-4">
-              <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-200"
-                >Type</label
-              >
+              <span class="flex items-center">
+                <label
+                  for="type"
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-200"
+                  >{{ $t('type') }}</label
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  height="12"
+                  width="12"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12.9998 3L12.9996 10.267L19.294 6.63397L20.294 8.36602L14.0006 11.999L20.294 15.634L19.294 17.366L12.9996 13.732L12.9998 21H10.9998L10.9996 13.732L4.70557 17.366L3.70557 15.634L9.99857 12L3.70557 8.36602L4.70557 6.63397L10.9996 10.267L10.9998 3H12.9998Z"
+                  ></path>
+                </svg>
+              </span>
               <select
                 v-model="type"
                 id="type"
@@ -95,7 +127,7 @@
               <label
                 for="app_name"
                 class="block text-sm font-medium text-gray-700 dark:text-gray-200"
-                >App Name</label
+                >{{ $t('app-name') }}</label
               >
               <input
                 v-model="app_name"
@@ -110,9 +142,24 @@
               }}</ErrorMessage>
             </div>
             <div class="mb-4">
-              <label for="date" class="block text-sm font-medium text-gray-700 dark:text-gray-200"
-                >Date</label
-              >
+              <span class="flex items-center">
+                <label
+                  for="date"
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-200"
+                  >{{ $t('date') }}</label
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  height="12"
+                  width="12"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12.9998 3L12.9996 10.267L19.294 6.63397L20.294 8.36602L14.0006 11.999L20.294 15.634L19.294 17.366L12.9996 13.732L12.9998 21H10.9998L10.9996 13.732L4.70557 17.366L3.70557 15.634L9.99857 12L3.70557 8.36602L4.70557 6.63397L10.9996 10.267L10.9998 3H12.9998Z"
+                  ></path>
+                </svg>
+              </span>
               <input
                 v-model="date"
                 type="date"
@@ -126,11 +173,24 @@
               }}</ErrorMessage>
             </div>
             <div class="mb-4">
-              <label
-                for="content"
-                class="block text-sm font-medium text-gray-700 dark:text-gray-200"
-                >Content</label
-              >
+              <span class="flex items-center">
+                <label
+                  for="content"
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-200"
+                  >{{ $t('content') }}</label
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  height="12"
+                  width="12"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12.9998 3L12.9996 10.267L19.294 6.63397L20.294 8.36602L14.0006 11.999L20.294 15.634L19.294 17.366L12.9996 13.732L12.9998 21H10.9998L10.9996 13.732L4.70557 17.366L3.70557 15.634L9.99857 12L3.70557 8.36602L4.70557 6.63397L10.9996 10.267L10.9998 3H12.9998Z"
+                  ></path>
+                </svg>
+              </span>
               <textarea
                 v-model="content"
                 id="content"
@@ -153,14 +213,14 @@
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Create
+                {{ $t('create') }}
               </button>
               <button
                 data-modal-hide="create-changelog-modal"
                 type="button"
                 class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
               >
-                Cancel
+                {{ $t('cancel') }}
               </button>
             </div>
           </form>
@@ -176,8 +236,6 @@ import * as yup from 'yup'
 import { ErrorMessage, useForm } from 'vee-validate'
 import { useChangelogStore } from '@/stores/changelogsStore'
 
-//const changelogUseCase = new ChangelogsUsecases()
-
 const changelogsStore = useChangelogStore()
 
 // yup field validation
@@ -187,7 +245,7 @@ const { errors, handleSubmit, defineField } = useForm({
     app_name: yup.string().min(3, 'must be at least 3 characters long'),
     content: yup.string(),
     type: yup.string().required(),
-    date: yup.string().required() // Change date format
+    date: yup.string().required()
   })
 })
 
@@ -202,8 +260,6 @@ const createChangelog = async (formData: ChangelogInterface) => {
   await changelogsStore.generateChangelog(formData)
 }
 
-//const emit = defineEmits(['create-changelog'])
-
 const onSubmit = handleSubmit(async (values) => {
   const validData: ChangelogInterface = {
     title: values.title,
@@ -214,6 +270,5 @@ const onSubmit = handleSubmit(async (values) => {
   }
 
   return await createChangelog(validData)
-  //emit('create-changelog', validData)
 })
 </script>

@@ -40,7 +40,7 @@
               d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
             />
           </svg>
-          <span class="sr-only">Search</span>
+          <span class="sr-only">{{ $t('search') }}</span>
         </button>
         <div class="relative hidden md:block">
           <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -59,14 +59,14 @@
                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
               />
             </svg>
-            <span class="sr-only">Search icon</span>
+            <span class="sr-only">{{ $t('search-icon') }}</span>
           </div>
           <input
             type="text"
             v-model="searchQuery"
             id="search-navbar"
             class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search by title or date"
+            :placeholder="$t('search-by-title-or-date')"
           />
         </div>
         <button
@@ -75,7 +75,7 @@
           class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           aria-expanded="false"
         >
-          <span class="sr-only">Open main menu</span>
+          <span class="sr-only">{{ $t('open-main-menu') }}</span>
           <svg
             class="w-5 h-5"
             aria-hidden="true"
@@ -121,7 +121,7 @@
             @input="updateSearch"
             id="search-navbar"
             class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search by title or date"
+            :placeholder="$t('search-by-title-or-date')"
           />
         </div>
       </div>
@@ -142,7 +142,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import router from '../router'
+import router from '../router/router'
 
 let searchQuery = ref('')
 
@@ -163,3 +163,4 @@ const updateSearch = () => {
 </script>
 
 <style scoped></style>
+../router/router

@@ -14,7 +14,7 @@
         />
       </template>
       <div v-else class="text-center p-4">
-        <p>No changelogs to display</p>
+        <p>{{ $t('no-changelogs') }}</p>
       </div>
     </div>
   </main>

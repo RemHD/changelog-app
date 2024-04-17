@@ -1,0 +1,18 @@
+{
+    "home": "Accueil",
+    "hidden-changelogs": "Changelogs masqués",
+    "create-changelog": "Créer changelog",
+    "create": "Créer",
+    "cancel": "Annuler",
+    "search": "Rechercher",
+    "search-icon": "Icône de recherche",
+    "search-by-title-or-date": "Par titre ou date",
+    "open-main-menu": "Ouvrir menu principal",
+    "no-changelogs": "Aucun changelog à afficher.",
+    "close-modal": "Fermer modal",
+    "app-name": "Nom de l'application",
+    "date": "Date",
+    "content": "Contenu",
+    "title": "Titre",
+    "type": "Type"
+}
