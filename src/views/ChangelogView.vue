@@ -18,6 +18,7 @@
       </div>
     </div>
   </main>
+  <ScrollToTop />
 </template>
 
 <script setup lang="ts">
@@ -26,6 +27,7 @@ import { onMounted, ref, watch } from 'vue'
 import { useChangelogStore } from '@/stores/changelogsStore'
 import { initFlowbite } from 'flowbite'
 import CreateChangelogModal from '../components/CreateChangelogModal.component.vue'
+import ScrollToTop from '../components/ScrollToTop.component.vue'
 
 const isLoading = ref(false)
 const hasMoreChangelogs = ref(true)
@@ -61,7 +63,7 @@ onMounted(async () => {
 })
 
 // Initial fetch
-isChangelogCreated.value = true;
+isChangelogCreated.value = true
 
 // Fetch changelogs after init
 const continueFetchingChangelogs = async () => {

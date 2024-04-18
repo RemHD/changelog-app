@@ -15,6 +15,7 @@
       </div>
     </div>
   </main>
+  <ScrollToTop />
 </template>
 
 <script setup lang="ts">
@@ -22,6 +23,7 @@ import ChangelogCard from '../components/ChangelogCard.component.vue'
 import { useChangelogStore } from '@/stores/changelogsStore'
 import { initFlowbite } from 'flowbite'
 import { computed, onMounted } from 'vue'
+import ScrollToTop from '../components/ScrollToTop.component.vue'
 
 const changelogStore = useChangelogStore()
 
