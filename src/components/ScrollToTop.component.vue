@@ -47,7 +47,7 @@ const topFunction = () => {
   z-index: 99; /* Make sure it does not overlap */
   border: none;
   outline: none;
-  background-color: red;
+  background-color: #F04438;
   color: white;
   cursor: pointer;
   padding: 15px;

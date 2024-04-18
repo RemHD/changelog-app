@@ -23,17 +23,23 @@
 
 <script setup lang="ts">
 import ChangelogCard from '../components/ChangelogCard.component.vue'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useChangelogStore } from '@/stores/changelogsStore'
 import { initFlowbite } from 'flowbite'
 import CreateChangelogModal from '../components/CreateChangelogModal.component.vue'
 import ScrollToTop from '../components/ScrollToTop.component.vue'
+import { watchEffect } from 'vue'
 
 const isLoading = ref(false)
 const hasMoreChangelogs = ref(true)
 
 const changelogStore = useChangelogStore()
-const isChangelogCreated = ref(false)
+
+watchEffect(() => {
+  if (changelogStore.changelogs.length === 0) {
+    changelogStore.fetchChangelogs()
+  }
+})
 
 // To detect if we're near the end of the page
 const isNearBottom = () => {
@@ -47,48 +53,47 @@ const updateSearchQuery = (query: string) => {
 // initialize components based on data attribute selectors
 onMounted(async () => {
   initFlowbite()
-  // our local changelogs gets the changelogs from the store
-  if (changelogStore.changelogs.length === 0) {
-    await changelogStore.fetchChangelogs()
-  }
 
-  watch(isChangelogCreated, async (newVal) => {
-    if (newVal) {
-      await changelogStore.fetchChangelogs() // Refetch on flag change
-      isChangelogCreated.value = false
-    }
-  })
+  //await changelogStore.fetchChangelogs()
+  // our local changelogs gets the changelogs from the store
+  // if (changelogStore.changelogs.length === 0) {
+  //   await changelogStore.fetchChangelogs()
+  // }
+
+  // watch(isChangelogCreated, async (newVal) => {
+  //   if (newVal) {
+  //     await changelogStore.fetchChangelogs() // Refetch on flag change
+  //     isChangelogCreated.value = false
+  //   }
+  // })
 
   window.addEventListener('scroll', handleScroll)
 })
 
-// Initial fetch
-isChangelogCreated.value = true
-
 // Fetch changelogs after init
-const continueFetchingChangelogs = async () => {
-  // No concurrent fetching
-  if (isLoading.value || !hasMoreChangelogs.value) return
-  isLoading.value = true
+// const continueFetchingChangelogs = async () => {
+//   // No concurrent fetching
+//   if (isLoading.value || !hasMoreChangelogs.value) return
+//   isLoading.value = true
 
-  const lastId =
-    changelogStore.changelogs.length > 0
-      ? changelogStore.changelogs[changelogStore.changelogs.length - 1].id
-      : undefined
-  const fetchedChangelogs = await changelogStore.fetchChangelogs(lastId)
+//   const lastId =
+//     changelogStore.changelogs.length > 0
+//       ? changelogStore.changelogs[changelogStore.changelogs.length - 1].id
+//       : undefined
+//   const fetchedChangelogs = await changelogStore.fetchChangelogs(lastId)
 
-  if (fetchedChangelogs.length === 0) {
-    hasMoreChangelogs.value = false
-  } else {
-    changelogStore.changelogs = [...changelogStore.changelogs, ...fetchedChangelogs]
-  }
+//   if (fetchedChangelogs.length === 0) {
+//     hasMoreChangelogs.value = false
+//   } else {
+//     changelogStore.changelogs = [...changelogStore.changelogs, ...fetchedChangelogs]
+//   }
 
-  isLoading.value = false
-}
+//   isLoading.value = false
+// }
 
 const handleScroll = () => {
   if (isNearBottom() && !isLoading.value && hasMoreChangelogs.value) {
-    continueFetchingChangelogs()
+    changelogStore.continueFetchingChangelogs()
   }
 }
 </script>

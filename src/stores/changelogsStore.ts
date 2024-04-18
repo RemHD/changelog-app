@@ -7,16 +7,22 @@ export const useChangelogStore = defineStore('changelogs', {
     changelogs: [] as ChangelogInterface[],
     hiddenChangelogs: [] as ChangelogInterface[],
     currentChangelog: null as ChangelogInterface | null,
-    searchQuery: ''
+    searchQuery: '',
+    isLoading: false,
+    hasMoreChangelogs: true
   }),
 
   getters: {
     filteredChangelogs: (state) => {
       const searchLower = state.searchQuery ? state.searchQuery.toLowerCase() : ''
       return state.changelogs.filter((changelog) => {
-        return changelog.title ? changelog.title.toLowerCase().includes(searchLower): '' ||
-               changelog.date ? changelog.date.includes(searchLower) : '' ||
-               changelog.type ? changelog.date.toLowerCase().includes(searchLower) : ''
+        return changelog.title
+          ? changelog.title.toLowerCase().includes(searchLower)
+          : '' || changelog.date
+            ? changelog.date.includes(searchLower)
+            : '' || changelog.type
+              ? changelog.date.toLowerCase().includes(searchLower)
+              : ''
       })
     }
   },
@@ -29,14 +35,38 @@ export const useChangelogStore = defineStore('changelogs', {
     async fetchChangelogs(lastChangelogId?: number) {
       try {
         const newChangelogs = await changelogService.getAllChangelogs(lastChangelogId)
+        // If I have a result I push them
         if (newChangelogs.length > 0) {
-          this.changelogs.push(...newChangelogs)
+          this.changelogs = [...this.changelogs, ...newChangelogs]
         }
         return newChangelogs
       } catch (error) {
         console.error('Failed to fetch changelogs:', error)
+        // Otherwise I have to return an empty array
         return []
       }
+    },
+
+    // Deplace here instead of in the component
+    async continueFetchingChangelogs() {
+      if (this.isLoading || !this.hasMoreChangelogs) return
+      this.isLoading = true
+
+      const lastId =
+        this.changelogs.length > 0 ? this.changelogs[this.changelogs.length - 1].id : undefined
+
+      const fetchedChangelogs = await this.fetchChangelogs(lastId)
+      if (fetchedChangelogs.length === 0) {
+        this.hasMoreChangelogs = false
+      } else {
+        // Remove duplicate here as we fetch them by scrolling
+        const existingIds = new Set(this.changelogs.map(changelog => changelog.id))
+
+        const uniqueChangelogs = fetchedChangelogs.filter((fetchedChangelog: ChangelogInterface) => !existingIds.has(fetchedChangelog.id))
+        this.changelogs = [...this.changelogs, ...uniqueChangelogs]
+      }
+
+      this.isLoading = false
     },
 
     async fetchHiddenChangelogs() {
@@ -58,11 +88,7 @@ export const useChangelogStore = defineStore('changelogs', {
     async generateChangelog(changelogData: ChangelogInterface) {
       try {
         const newChangelog = await changelogService.createChangelog(changelogData)
-        // newChangelog becomes a new array, and we create a new one with the ... operator
-        this.changelogs.push(...[newChangelog])
-        // this.changelogs.sort((a,b : ChangelogInterface) => b.id - a.id)
-        console.log(this.changelogs.values)
-        // Need to sort the this.changelogs ? Or check the filteredChangelogs
+        this.changelogs.splice(...[newChangelog])
       } catch (error) {
         console.error('Failed to create changelog:', error)
       }

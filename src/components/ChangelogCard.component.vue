@@ -18,7 +18,7 @@
       >
         {{changelog.type }}
       </span>
-      <h4 v-if="changelog.app_name">Application: {{ changelog.app_name }}</h4>
+      <h4 v-if="changelog.app_name">{{$t('application')}}: {{ changelog.app_name }}</h4>
     </div>
     <h4>{{ changelog.date }}</h4>
     <p class="font-normal text-gray-700 dark:text-gray-400">{{ changelog.content }}</p>
