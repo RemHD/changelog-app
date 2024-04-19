@@ -41,7 +41,6 @@ watchEffect(() => {
   }
 })
 
-// To detect if we're near the end of the page
 const isNearBottom = () => {
   return window.innerHeight + window.scrollY >= document.body.offsetHeight - 300
 }
@@ -50,46 +49,10 @@ const updateSearchQuery = (query: string) => {
   changelogStore.setSearchQuery(query)
 }
 
-// initialize components based on data attribute selectors
 onMounted(async () => {
   initFlowbite()
-
-  //await changelogStore.fetchChangelogs()
-  // our local changelogs gets the changelogs from the store
-  // if (changelogStore.changelogs.length === 0) {
-  //   await changelogStore.fetchChangelogs()
-  // }
-
-  // watch(isChangelogCreated, async (newVal) => {
-  //   if (newVal) {
-  //     await changelogStore.fetchChangelogs() // Refetch on flag change
-  //     isChangelogCreated.value = false
-  //   }
-  // })
-
   window.addEventListener('scroll', handleScroll)
 })
-
-// Fetch changelogs after init
-// const continueFetchingChangelogs = async () => {
-//   // No concurrent fetching
-//   if (isLoading.value || !hasMoreChangelogs.value) return
-//   isLoading.value = true
-
-//   const lastId =
-//     changelogStore.changelogs.length > 0
-//       ? changelogStore.changelogs[changelogStore.changelogs.length - 1].id
-//       : undefined
-//   const fetchedChangelogs = await changelogStore.fetchChangelogs(lastId)
-
-//   if (fetchedChangelogs.length === 0) {
-//     hasMoreChangelogs.value = false
-//   } else {
-//     changelogStore.changelogs = [...changelogStore.changelogs, ...fetchedChangelogs]
-//   }
-
-//   isLoading.value = false
-// }
 
 const handleScroll = () => {
   if (isNearBottom() && !isLoading.value && hasMoreChangelogs.value) {

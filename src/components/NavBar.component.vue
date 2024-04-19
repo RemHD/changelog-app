@@ -163,4 +163,3 @@ const updateSearch = () => {
 </script>
 
 <style scoped></style>
-../router/router

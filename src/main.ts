@@ -5,6 +5,8 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
 
+import '../node_modules/flowbite-vue/dist/index.css'
+
 import App from './App.vue'
 import router from './router/router'
 import NavBar from './components/NavBar.component.vue'

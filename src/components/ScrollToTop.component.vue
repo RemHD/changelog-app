@@ -41,9 +41,9 @@ const topFunction = () => {
 
 #button-top {
   display: none;
-  position: fixed; /* Fixed/sticky position */
-  bottom: 20px; /* Place the button at the bottom of the page */
-  right: 30px; /* Place the button 30px from the right */
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
   z-index: 99; /* Make sure it does not overlap */
   border: none;
   outline: none;
@@ -56,6 +56,6 @@ const topFunction = () => {
 }
 
 #button-top:hover {
-  background-color: #555; /* Add a dark-grey background on hover */
+  background-color: #555;
 }
 </style>
