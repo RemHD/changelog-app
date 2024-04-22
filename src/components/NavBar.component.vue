@@ -19,6 +19,7 @@
           </RouterLink>
         </div>
         <button
+          v-if="isSearchbarNeeded"
           type="button"
           data-collapse-toggle="navbar-search"
           aria-controls="navbar-search"
@@ -42,7 +43,7 @@
           </svg>
           <span class="sr-only">{{ $t('search') }}</span>
         </button>
-        <div class="relative hidden md:block">
+        <div class="relative hidden md:block" v-if="isSearchbarNeeded">
           <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg
               class="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -143,6 +144,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import router from '../router/router'
+
+withDefaults(
+  defineProps<{
+    isSearchbarNeeded?: boolean
+  }>(),
+  {
+    isSearchbarNeeded: true
+  }
+)
 
 let searchQuery = ref('')
 
